@@ -1,25 +1,20 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 
-import * as actionType from './../../store/actions/actionTypes';
-import { signIn } from './../../services/authentication';
+import { signUp } from './../../../services/authentication';
 
 const SignUp = () => {
   const [inputText, setInputText] = useState({
+    name: '',
     email: '',
     password: ''
   });
 
   const handleFormSubmission = e => {
     e.preventDefault();
-    const { email, password } = inputText;
-    const body = { email, password };
+    const { name, email, password } = inputText;
+    const body = { name, email, password };
 
-    signIn(body).then(data => {
-      console.log(data);
-      //UPDATE REDUX STATE WITH USER INFORMATION
-    });
+    signUp(body);
   };
   const handleInputChange = e => {
     const { name, value } = e.target;
@@ -27,9 +22,16 @@ const SignUp = () => {
   };
   return (
     <>
-      <h1>Sign in</h1>
-      <Link to="/">Home</Link>
+      <h1>Sign Up</h1>
       <form onSubmit={handleFormSubmission}>
+        <input
+          type="text"
+          required
+          placeholder="Name"
+          onChange={handleInputChange}
+          value={inputText.name}
+          name="name"
+        />
         <input
           type="email"
           required
@@ -53,16 +55,4 @@ const SignUp = () => {
   );
 };
 
-const mapStateTopProps = state => {
-  return {
-    user: state.user
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    onSignIn: () => dispatch({ type: actionType.LOGIN })
-  };
-};
-
-export default connect(mapStateTopProps, mapDispatchToProps)(SignUp);
+export default SignUp;
