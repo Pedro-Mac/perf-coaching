@@ -1,5 +1,11 @@
 import axios from 'axios';
 
-const api = axios.create({
-  baseURL: `${process.env.REACT_APP_URL_AUTHENTICATION_API}/authentication`
-});
+export const signUp = body =>
+  axios
+    .post(`${process.env.REACT_APP_API}/authentication/sign-up`, body)
+    .then(res => res.data);
+
+export const signIn = body =>
+  axios
+    .post(`${process.env.REACT_APP_API}/authentication/sign-in`, body)
+    .then(res => res.data);
