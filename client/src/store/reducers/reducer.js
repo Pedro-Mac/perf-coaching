@@ -9,6 +9,8 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.LOGIN:
       return updateObject(state, { user: action.user });
+    case actionTypes.LOGOUT:
+      return updateObject(state, { user: action.user });
     default:
       return state;
   }

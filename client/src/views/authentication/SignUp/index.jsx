@@ -1,20 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import { signUp } from './../../../services/authentication';
 
-const SignUp = () => {
+const SignUp = props => {
   const [inputText, setInputText] = useState({
     name: '',
     email: '',
     password: ''
   });
 
+  // Check if there is user and user is admin
+  useEffect(() => {
+    if (!props.user || props.user.role !== 'admin')
+      throw new Error('Error 404 - Page not found');
+  }, [props.user]);
+
+  const history = useHistory();
+
   const handleFormSubmission = e => {
     e.preventDefault();
     const { name, email, password } = inputText;
     const body = { name, email, password };
 
-    signUp(body);
+    signUp(body).then(data => {
+      console.log(data);
+      history.push('/me');
+    });
   };
   const handleInputChange = e => {
     const { name, value } = e.target;
@@ -55,4 +68,10 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  };
+};
+
+export default connect(mapStateToProps)(SignUp);

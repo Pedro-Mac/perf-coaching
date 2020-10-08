@@ -13,8 +13,19 @@ const basicAuthenticationDeserializer = require('./middleware/basic-authenticati
 const bindUserToViewLocals = require('./middleware/bind-user-to-view-locals.js');
 const indexRouter = require('./routes/index');
 const authenticationRouter = require('./routes/authentication');
+const passport = require('passport');
+const passportConfigure = require('./passport-configuration.js');
+const cors = require('cors');
 
 const app = express();
+// app.set('trust proxy', 1);
+
+app.use(
+  cors({
+    origin: [process.env.CLIENT_APP_URL],
+    credentials: true
+  })
+);
 
 app.use(serveFavicon(join(__dirname, 'public/images', 'favicon.ico')));
 app.use(logger('dev'));
@@ -26,10 +37,10 @@ app.use(
     resave: true,
     saveUninitialized: false,
     cookie: {
-      maxAge: 60 * 60 * 24 * 15,
-      sameSite: 'lax',
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production'
+      maxAge: 60 * 60 * 24 * 15
+      // sameSite: 'lax',
+      // httpOnly: true,
+      // secure: process.env.NODE_ENV === 'production'
     },
     store: new (connectMongo(expressSession))({
       mongooseConnection: mongoose.connection,
@@ -37,7 +48,9 @@ app.use(
     })
   })
 );
-app.use(basicAuthenticationDeserializer);
+app.use(passport.initialize());
+app.use(passport.session());
+// app.use(basicAuthenticationDeserializer);
 app.use(bindUserToViewLocals);
 
 app.use((req, res, next) => {

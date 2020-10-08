@@ -21,6 +21,7 @@ const SignUp = props => {
     signIn(body)
       .then(data => {
         //UPDATE REDUX STATE WITH USER INFORMATION
+        console.log('signing in in frontend', data);
         props.onSignIn(data.user);
 
         history.push('/me');
