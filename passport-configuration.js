@@ -57,7 +57,6 @@ passport.use(
     })
       .then(document => {
         user = document;
-        console.log('user found', user);
         return bcryptjs.compare(password, user.passwordHash);
       })
       .then(passwordMatchesHash => {

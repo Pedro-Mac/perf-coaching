@@ -2,40 +2,36 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
 
-import { signOut, loadMe } from './../../services/authentication';
+import { signOut } from './../../services/authentication';
 import * as actionType from './../../store/actions/actionTypes';
 
 const Dashboard = props => {
   const history = useHistory();
   useEffect(() => {
-    loadMe().then(data => {
-      console.log(data);
-    });
-    console.log('user on sign in', props.user);
+    if (!props.user) throw new Error('No user signed in');
   }, [props.user]);
 
   const handleSignOut = e => {
     e.preventDefault();
     signOut()
       .then(() => {
-        console.log('request succeded');
-        props.onSignOut(null);
         history.push('/');
+        props.onSignOut(null);
       })
       .catch(err => console.log(err));
   };
 
   return (
     <div>
-      {(props.user && (
+      {props.user && (
         <>
           <h1>You are logged in</h1> <form></form>
-          <Link to="/sign-up">Add user</Link>
+          {props.user.role === 'admin' && <Link to="/sign-up">Add user</Link>}
           <form onSubmit={handleSignOut}>
             <button>Log out</button>
           </form>
         </>
-      )) || <h1>This page is restricted to clients</h1>}
+      )}
     </div>
   );
 };

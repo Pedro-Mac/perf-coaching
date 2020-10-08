@@ -1,13 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-const LandingPage = () => {
+const LandingPage = props => {
   return (
     <div>
       <h1>Landing Page</h1>
-      <Link to="/sign-in">Sign in</Link>
+      {(!props.user && <Link to="/sign-in">Sign in</Link>) || (
+        <Link to="/me">Dashboard</Link>
+      )}
     </div>
   );
 };
 
-export default LandingPage;
+const mapPropsToState = state => {
+  return {
+    user: state.user
+  };
+};
+
+export default connect(mapPropsToState)(LandingPage);

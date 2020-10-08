@@ -23,11 +23,7 @@ const SignUp = props => {
     e.preventDefault();
     const { name, email, password } = inputText;
     const body = { name, email, password };
-
-    signUp(body).then(data => {
-      console.log(data);
-      history.push('/me');
-    });
+    signUp(body);
   };
   const handleInputChange = e => {
     const { name, value } = e.target;
@@ -35,35 +31,39 @@ const SignUp = props => {
   };
   return (
     <>
-      <h1>Sign Up</h1>
-      <form onSubmit={handleFormSubmission}>
-        <input
-          type="text"
-          required
-          placeholder="Name"
-          onChange={handleInputChange}
-          value={inputText.name}
-          name="name"
-        />
-        <input
-          type="email"
-          required
-          placeholder="Email"
-          onChange={handleInputChange}
-          value={inputText.email}
-          name="email"
-        />
-        <input
-          type="password"
-          required
-          placeholder="Password"
-          onChange={handleInputChange}
-          value={inputText.password}
-          name="password"
-          autoComplete="on"
-        />
-        <button>Submit</button>
-      </form>
+      {props.user.role === 'admin' && (
+        <>
+          <h1>Sign Up</h1>
+          <form onSubmit={handleFormSubmission}>
+            <input
+              type="text"
+              required
+              placeholder="Name"
+              onChange={handleInputChange}
+              value={inputText.name}
+              name="name"
+            />
+            <input
+              type="email"
+              required
+              placeholder="Email"
+              onChange={handleInputChange}
+              value={inputText.email}
+              name="email"
+            />
+            <input
+              type="password"
+              required
+              placeholder="Password"
+              onChange={handleInputChange}
+              value={inputText.password}
+              name="password"
+              autoComplete="on"
+            />
+            <button>Submit</button>
+          </form>
+        </>
+      )}
     </>
   );
 };
