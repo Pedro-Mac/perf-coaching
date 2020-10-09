@@ -2,21 +2,31 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
 
-import { signOut } from './../../../services/authentication';
+import { signOut, loadMe } from './../../../services/authentication';
 import * as actionType from './../../../store/actions/actionTypes';
 
 const AdminDashboard = props => {
   const history = useHistory();
+  const {onSessionOut} = props
+
   useEffect(() => {
-    if (!props.user) throw new Error('No user signed in');
-  }, [props.user]);
+    loadMe().then(data=>{
+      console.log('show data', data)
+    })
+    .catch(err => {
+      console.log('User failed to load')
+      onSessionOut(null);
+      history.push('/sign-in');
+    })
+    
+  }, []);
 
   const handleSignOut = e => {
     e.preventDefault();
     signOut()
       .then(() => {
         history.push('/');
-        props.onSignOut(null);
+        props.onSessionOut(null);
       })
       .catch(err => console.log(err));
   };
@@ -44,7 +54,7 @@ const mapStateToPros = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onSignOut: user => dispatch({ type: actionType.LOGOUT, user })
+    onSessionOut: user => dispatch({ type: actionType.LOGOUT, user })
   };
 };
 

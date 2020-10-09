@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+
 import { connect } from 'react-redux';
 
 import { signUp } from './../../../services/authentication';
@@ -16,8 +16,6 @@ const SignUp = props => {
     if (!props.user || props.user.role !== 'admin')
       throw new Error('Error 404 - Page not found');
   }, [props.user]);
-
-  const history = useHistory();
 
   const handleFormSubmission = e => {
     e.preventDefault();

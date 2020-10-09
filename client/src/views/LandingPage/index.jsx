@@ -7,7 +7,7 @@ const LandingPage = props => {
     <div>
       <h1>Landing Page</h1>
       {(!props.user && <Link to="/sign-in">Sign in</Link>) || (
-        <Link to="/me">Dashboard</Link>
+        <Link to="/admin">Dashboard</Link>
       )}
     </div>
   );

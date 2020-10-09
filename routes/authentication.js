@@ -4,6 +4,7 @@ const { Router } = require('express');
 
 const passport = require('passport');
 
+// const authenticationGuard = require('./../middleware/route-guard');
 const roleRouteGuard = require('./../middleware/role-route-guard');
 
 const router = new Router();
@@ -24,12 +25,17 @@ router.post(
   })
 );
 
-router.get('/me', (request, response) => {
-  const user = request.user;
-  console.log(user);
-  response.json({
-    user: { role: user.role, name: user.name, email: user.email, _id: user._id }
-  });
+router.get('/me' ,(req, res) => {
+  const user = req.user;
+
+  if (req.user._id.toString() === req.session.passport.user.toString()) {
+    console.log('session belongs to user logged in');
+    res.json({
+      user: { role: user.role, name: user.name, email: user.email, _id: user._id }
+    });
+  } else {
+    throw new Error('Authentication required');
+  }
 });
 
 router.post('/sign-out', (req, res, next) => {
