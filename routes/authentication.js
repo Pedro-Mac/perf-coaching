@@ -4,10 +4,12 @@ const { Router } = require('express');
 
 const passport = require('passport');
 
+const roleRouteGuard = require('./../middleware/role-route-guard');
+
 const router = new Router();
 
 router.post(
-  '/sign-up',
+  '/sign-up', roleRouteGuard('admin'),
   passport.authenticate('local-sign-up', {
     successRedirect: '/authentication/me',
     failureRedirect: '/sign-up'

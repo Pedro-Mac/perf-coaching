@@ -38,9 +38,6 @@ passport.use(
             passwordHash: hash
           });
         })
-        .then(user => {
-          callback(null, user);
-        })
         .catch(error => {
           callback(error);
         });

@@ -6,7 +6,7 @@ import { loadMe } from './services/authentication';
 import SignUp from './views/authentication/SignUp';
 import SignIn from './views/authentication/SignIn';
 import LandingPage from './views/LandingPage';
-import Dashboard from './views/Dashboard';
+import AdminDashboard from './views/Dashboard/AdminDash';
 import * as actionTypes from './store/actions/actionTypes';
 
 import './App.css';
@@ -29,7 +29,7 @@ const App = props => {
       <BrowserRouter>
         <Switch>
           <Route path="/" component={LandingPage} exact />
-          <Route path="/me" component={Dashboard} exact />
+          <Route path="/admin" component={AdminDashboard} exact />
           <Route path="/sign-up" component={SignUp} exact />
           <Route path="/sign-in" component={SignIn} exact />
         </Switch>
