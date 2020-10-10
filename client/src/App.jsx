@@ -35,7 +35,7 @@ const App = props => {
           <Route path="/admin" component={AdminDashboard} exact />
           <Route path="/sign-up" component={SignUp} exact />
           <Route path="/sign-in" component={SignIn} exact />
-          {/* <Route path='/user/:id' component={UserDashboard}/> */}
+          <Route path='/user/:id' component={UserDashboard}/>
         </Switch>
       </BrowserRouter>
     </div>

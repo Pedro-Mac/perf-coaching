@@ -7,7 +7,7 @@ const ProtectedRoute = ({user, ...props }) => {
   } else if (user.role === 'admin') {
     return <Redirect to='/admin'/>
   } else {
-    return <Redirect to={`/${user._id}`} />
+    return <Redirect to={`/user/${user._id}`} />
   }
 }
 

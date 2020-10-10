@@ -24,7 +24,7 @@ const SignUp = props => {
         console.log('signing in in frontend', data);
         props.onSignIn(data.user);
 
-        data.user.role === 'admin' ? history.push('/admin') : history.push(`/${data.user._id}`)
+        data.user.role === 'admin' ? history.push('/admin') : history.push(`/user/${data.user._id}`)
       })
       .catch(err => {
         console.log('error', err);

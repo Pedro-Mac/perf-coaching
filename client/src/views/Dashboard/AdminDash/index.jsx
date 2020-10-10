@@ -9,9 +9,13 @@ const AdminDashboard = props => {
   const history = useHistory();
   const {onSessionOut} = props
 
+  console.log('component rendered')
   useEffect(() => {
     loadMe().then(data=>{
-      console.log('show data', data)
+      console.log('show redux user', props.user);
+      console.log('show data', data.user);
+      if(data.user.role !== 'admin') throw new Error('404 - Page not found')
+
     })
     .catch(err => {
       console.log('User failed to load')
@@ -19,7 +23,7 @@ const AdminDashboard = props => {
       history.push('/sign-in');
     })
     
-  }, []);
+  }, [onSessionOut, history]);
 
   const handleSignOut = e => {
     e.preventDefault();
@@ -35,7 +39,7 @@ const AdminDashboard = props => {
     <div>
       {props.user && (
         <>
-          <h1>You are logged in</h1> <form></form>
+          <h1>You are logged in</h1>
           {props.user.role === 'admin' && <Link to="/sign-up">Add user</Link>}
           <form onSubmit={handleSignOut}>
             <button>Log out</button>
